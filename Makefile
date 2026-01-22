@@ -2,13 +2,13 @@
 
 # 安装依赖
 install:
-	pip install -r requirements.txt
-	pip install -e .
+	uv pip install -r requirements.txt
+	uv pip install -e .
 
 # 安装开发依赖
 install-dev:
-	pip install -r requirements.txt
-	pip install -e .[dev]
+	uv pip install -r requirements.txt
+	uv pip install -e .[dev]
 
 # 运行测试
 test:
