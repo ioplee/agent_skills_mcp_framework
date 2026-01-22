@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-skill-mcp
+  labels:
+    app: agent-skill-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent-skill-mcp
+  template:
+    metadata:
+      labels:
+        app: agent-skill-mcp
+    spec:
+      containers:
+      - name: agent-skill-mcp
+        image: agent-skill-mcp:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - secretRef:
+            name: agent-skill-mcp-secrets
+        - configMapRef:
+            name: agent-skill-mcp-config
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20

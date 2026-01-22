@@ -1,0 +1,45 @@
+# Agent-Skill-MCP Framework Helm Chart Values
+
+replicaCount: 1
+
+image:
+  repository: agent-skill-mcp
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+config:
+  logLevel: INFO
+  logFile: logs/app.log
+  agentName: HelmAgent
+  agentTimeout: 30
+  debug: false
+
+secrets:
+  # 注意：这些值需要在部署时提供
+  openaiApiKey: ""
+  openaiApiBase: "https://api.openai.com/v1"
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10

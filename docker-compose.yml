@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  agent-skill-mcp:
+    build: .
+    container_name: agent-skill-mcp
+    restart: unless-stopped
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_BASE=${OPENAI_API_BASE:-https://api.openai.com/v1}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FILE=${LOG_FILE:-logs/app.log}
+      - AGENT_NAME=${AGENT_NAME:-DockerAgent}
+      - AGENT_TIMEOUT=${AGENT_TIMEOUT:-30}
+    volumes:
+      - ./logs:/app/logs
+      - ./.env:/app/.env
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
